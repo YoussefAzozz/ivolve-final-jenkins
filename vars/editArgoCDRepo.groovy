@@ -21,7 +21,7 @@ def call() {
                 sh """
                     git config user.email "jenkins@example.com"
                     git config user.name "Jenkins CI"
-                    git add patch-deployment.yml kustomization.yml
+                    git add overlays/prod/patch-deployment.yml overlays/prod/kustomization.yml
 
                     if git diff --quiet; then
                         echo "No changes to commit"
