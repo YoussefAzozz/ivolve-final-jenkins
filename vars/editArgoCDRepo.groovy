@@ -17,7 +17,7 @@ def call() {
         """
 
 dir('argocd-repo') {
-    withCredentials([usernamePassword(credentialsId: 'git-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+    withCredentials([sshUserPrivateKey(credentialsId: 'github-creds', keyFileVariable: 'SSH_KEY')]) {
     sh '''#!/bin/bash
         set -e
         git config user.email "jenkins@example.com"
@@ -28,12 +28,13 @@ dir('argocd-repo') {
         if git diff --cached --quiet; then
             echo "No changes to commit"
         else
-            ENCODED_PASS=$(python3 -c "import urllib.parse,os; print(urllib.parse.quote(os.environ['GIT_PASS']))")
             git commit -m "Update image tag to $BUILD_NUMBER and replicas to 4"
-            git push https://$GIT_USER:$ENCODED_PASS@github.com/YoussefAzozz/argocd-ivolve-final.git HEAD:master
+            git remote set-url origin git@github.com:YoussefAzozz/argocd-ivolve-final.git
+            GIT_SSH_COMMAND="ssh -i $SSH_KEY -o StrictHostKeyChecking=no" git push origin master
         fi
     '''
 }
+
 
 }
 
