@@ -1,21 +1,5 @@
 def call() {
-    script {
-        sh '''
-            rm -rf argocd-repo
-            git clone https://github.com/YoussefAzozz/argocd-ivolve-final.git argocd-repo
-        '''
-
-        // Update replicas
-        sh '''
-            sed -i 's/replicas: [0-9]\\+/replicas: 4/' argocd-repo/overlays/prod/patch-deployment.yml
-        '''
-
-        // Update image tag
-        sh """
-            sed -i 's/newTag: .*/newTag: "${BUILD_NUMBER}"/' argocd-repo/overlays/prod/kustomization.yml
-        """
-
-        def call() {
+    // You can use 'script' to access pipeline steps
     script {
         sh '''
             rm -rf argocd-repo
@@ -50,8 +34,5 @@ def call() {
                 """
             }
         }
-    }
-}
-
     }
 }
