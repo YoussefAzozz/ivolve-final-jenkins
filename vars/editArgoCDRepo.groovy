@@ -17,7 +17,7 @@ def call() {
 
         // Commit and push
         dir('argocd-repo') {
-            withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+            withCredentials([usernamePassword(credentialsId: 'git-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
                 sh """
                     git config user.email "jenkins@example.com"
                     git config user.name "Jenkins CI"
